@@ -27,24 +27,28 @@ public class Checker
     {
         VitalStatus result = EvaluateVitals(temperature, pulseRate, spo2);
 
-        switch (result)
+        if (result == VitalStatus.TemperatureAbnormal)
         {
-            case VitalStatus.TemperatureAbnormal:
-                ShowBlinkingAlert("Temperature critical!");
-                return false;
-            case VitalStatus.PulseRateAbnormal:
-                ShowBlinkingAlert("Pulse Rate is out of range!");
-                return false;
-            case VitalStatus.Spo2Abnormal:
-                ShowBlinkingAlert("Oxygen Saturation out of range!");
-                return false;
-            case VitalStatus.Normal:
-                Console.WriteLine("Vitals received within normal range");
-                Console.WriteLine("Temperature: {0} Pulse: {1}, SO2: {2}", temperature, pulseRate, spo2);
-                return true;
+            ShowBlinkingAlert("Temperature critical!");
+            return false;
         }
 
-        return false; // unreachable, but required
+        if (result == VitalStatus.PulseRateAbnormal)
+        {
+            ShowBlinkingAlert("Pulse Rate is out of range!");
+            return false;
+        }
+
+        if (result == VitalStatus.Spo2Abnormal)
+        {
+            ShowBlinkingAlert("Oxygen Saturation out of range!");
+            return false;
+        }
+
+        // result == VitalStatus.Normal
+        Console.WriteLine("Vitals received within normal range");
+        Console.WriteLine("Temperature: {0} Pulse: {1}, SO2: {2}", temperature, pulseRate, spo2);
+        return true;
     }
 
     private static void ShowBlinkingAlert(string message)
